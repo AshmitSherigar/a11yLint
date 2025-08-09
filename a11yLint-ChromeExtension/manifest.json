@@ -1,0 +1,17 @@
+{
+    "manifest_version": 3,
+    "version": "1.0.0",
+    "name": "a11yLint",
+    "description": "a11yLint is a Chrome extension that helps developers identify and fix accessibility issues on web pages by providing real-time audits, actionable insights, and best practice recommendations to improve web accessibility compliance.",
+    "action": {
+        "default_icon": {
+            "16": "images/icon16.png",
+            "32": "images/icon32.png",
+            "48": "images/icon48.png",
+            "128": "images/icon128.png"
+        },
+        "default_title": "Click me to a11yLint-fy",
+        "default_popup": "popup.html"
+    },
+    "author" : "sherigarashmit@gmail.com"
+}
