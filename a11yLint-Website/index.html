@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>a11yLint</title>
-    <link rel="icon" href="assets/favicon.png" type="image/x-icon">
+    <link rel="icon" href="assets/favicon.ico" type="image/x-icon">
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
@@ -26,7 +26,17 @@
         </section>
 
         <section id="features">
-            <h2>Features</h2>
+            <svg viewBox="0 0 1250 600">
+                <path id="red-line" d="M 50 150 L 900 150 Q 1050 150, 1200 400" fill="none" stroke-width="50" fill="none" stroke-linecap="round" />
+        
+                <path id="text-path" d="M 50 130 L 900 130 Q 1050 130, 1200 380" fill="none" />
+        
+                <text dy="20" fill="white" font-weight="bold">
+                    <textPath id="featuresText" href="#text-path" startOffset="0%">
+                        Features
+                    </textPath>
+                </text>
+            </svg>
         </section>
 <!-- 
         <section id="docs">
@@ -37,6 +47,8 @@
             <h2>Contact</h2>
         </section> -->
     </main>
+
+    <script src="script.js"></script>
 </body>
 
 </html>
