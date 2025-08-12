@@ -107,6 +107,7 @@ svg {
     top: 20%;
     width: 95%;
     height: auto;
+    
 }
 
 text {
@@ -136,4 +137,11 @@ text {
     font-size: clamp(12px, 2vw, 24px);
     text-align: center;
     max-width: 600px;
+}
+
+.random{
+    height: 100vh;
+    width: 100%;
+    color: white;
+    background-color: red;
 }
