@@ -39,11 +39,74 @@
                         Features
                     </textPath>
                 </text>
-                <foreignObject x="0" y="200" width="100%" height="100">
+                <foreignObject x="70" y="200" width="100%" height="360">
                     <div xmlns="http://www.w3.org/1999/xhtml" class="random">
-                        This is my random div
+                        <div class="slider">
+                            <!-- Left Arrow -->
+                            <button class="arrow arrow-left" aria-label="Previous slide"></button>
+                    
+                            <!-- Slides Container -->
+                            <div class="slides">
+                                <!-- Slide 1 -->
+                                <div class="slide active">
+                                    <h3>Media Made Accessible</h3>
+                                    <ul class="bulletPtns">
+                                        <li>Detects missing alt text.</li>
+                                        <li>Validates long descriptions for charts &amp; infographics.</li>
+                                        <li>Checks captions &amp; transcripts for video/audio.</li>
+                                        <li>Ensures autoplay media is muted or paused.</li>
+                                    </ul>
+                                
+                                </div>
+                                <!-- Slide 2 -->
+                                <div class="slide">
+                                    <h3>Clear and Readable Content</h3>
+                                    <ul class="bulletPtns">
+                                        <li>Enforces proper heading order &amp; single &lt;h1&gt;.</li>
+                                        <li>Flags vague link text &amp; missing aria-labels.</li>
+                                        <li>Verifies language tags &amp; WCAG AA contrast.</li>
+                                        <li>Ensures text is at least 12px.</li>
+                                    </ul>
+                                
+                                </div>
+                                <!-- Slide 3 -->
+                                <div class="slide">
+                                    <h3>Forms Everyone Can Use</h3>
+                                    <ul class="bulletPtns">
+                                        <li>Validates labels &amp; matching IDs.</li>
+                                        <li>Marks required fields clearly.</li>
+                                        <li>Prevents placeholder misuse.</li>
+                                        <li>Ensures buttons have accessible names.</li>
+                                    </ul>
+                                
+                                </div>
+                                <!-- Slide 4 -->
+                                <div class="slide">
+                                    <h3>ARIA &amp; Navigation Compliance</h3>
+                                    <p>
+                                    <ul class="bulletPtns">
+                                        <li>Checks landmark roles like &lt;main&gt; &amp; &lt;nav&gt;.</li>
+                                        <li>Flags invalid or redundant ARIA.</li>
+                                        <li>Prevents broken tab order.</li>
+                                        <li>Tests keyboard accessibility.</li>
+                                    </ul>
+                                    </p>
+                                </div>
+                            </div>
+                    
+                            <!-- Right Arrow -->
+                            <button class="arrow arrow-right" aria-label="Next slide"></button>
+                    
+                            <!-- Navigation Dots -->
+                            <div class="dots">
+                                <span class="dot active"></span>
+                                <span class="dot"></span>
+                                <span class="dot"></span>
+                                <span class="dot"></span>
+                            </div>
+                        </div>
                     </div>
-                </foreignObject>
+                    </foreignObject>
             </svg>
 
         </section>
