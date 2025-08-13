@@ -126,28 +126,6 @@ text {
     font-weight: bold;
 }
 
-
-#docs, #contact {
-    height: 100vh;
-    padding: 2rem;
-    background-color: #010205;
-    color: white;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-}
-
-#docs h2, #contact h2 {
-    font-size: clamp(16px, 4vw, 60px);
-    margin-bottom: 1rem;
-}
-
-#docs p, #contact p {
-    font-size: clamp(12px, 2vw, 24px);
-    text-align: center;
-    max-width: 600px;
-}
 .random {
     height: 100vh;
     width: 100%;
@@ -339,3 +317,177 @@ text {
         right: 5px;
     }
 }
+
+#docs{
+    color: white;
+    height: 95vh;
+    padding: 2rem;
+    background-color: #0A2540;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+#docs-text{
+    height: 80vh;
+    width: 40%;
+}
+
+#docs-text h3{
+    color: #00D4FF;
+    font-size: 20px;
+}
+
+#docs-text h1 {
+    font-size: 44px;
+    width: 80%;
+    padding-top: 3%;
+}
+
+#docs-text p {
+    color: rgb(146, 161, 176);
+    font-size: 20px;
+    width: 80%;
+    padding-top: 3%;
+}
+
+#container{
+    padding-top: 2%;
+}
+
+#container button {
+    position: relative;
+    display: inline-block;
+    cursor: pointer;
+    border: none;
+    background: transparent;
+    padding: 0;
+}
+
+#container .read {
+    width: 13rem;
+    height: auto;
+
+}
+
+#container .circle {
+    transition: all 0.45s cubic-bezier(0.65, 0, .076, 1);
+    position: relative;
+    display: block;
+    width: 3rem;
+    height: 3rem;
+    background: #00D4F9;
+    border-radius: 1.625rem;
+}
+
+#container .icon.arrow {
+    transition: all 0.45s cubic-bezier(0.65, 0, .076, 1);
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0.625rem;
+    margin: auto;
+    width: 1.125rem;
+    height: 0.125rem;
+    background: none;
+}
+
+#container .icon.arrow::before {
+    content: '';
+    position: absolute;
+    top: -0.25rem;
+    right: 0.0625rem;
+    width: 0.625rem;
+    height: 0.625rem;
+    border-top: 0.125rem solid #0A2540;
+    border-right: 0.125rem solid #0A2540;
+    transform: rotate(45deg);
+}
+
+#container .button-text {
+    transition: all 0.45s cubic-bezier(0.65, 0, .076, 1);
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    padding: 0.75rem 0;
+    margin-left: 1.85rem;
+    color: #00D4F9;
+    text-align: center;
+    font-size: 18px;
+    font-family: 'Glacial';
+}
+
+#container button:hover .circle {
+    width: 100%;
+}
+
+#container button:hover .icon.arrow {
+    background: #0A2540;
+    transform: translateX(1rem);
+}
+
+#container button:hover .button-text {
+    color: #0A2540;
+}
+
+#docs-link{
+    height: 85vh;
+    width: 45%;
+    display: flex;
+    flex-direction: column;
+}
+
+
+.docs-part{
+    height: 50%;
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 30px;
+}
+
+.squares{
+    width: 45%;
+    height: 90%;
+    background-color: #1e4164;
+    border-radius: 10%;
+    display: flex;
+    flex-direction: column;
+    justify-content:end;
+    padding-left: 5%;
+    padding-right: 5%;
+    padding-bottom: 5%;
+}
+
+.squares h3{
+    font-size: 25px;
+    padding-bottom: 10%;
+}
+
+.squares p{
+    padding-bottom: 6%;
+}
+
+.left-tilt{
+    transition: transform 0.4s ease-in-out;
+}
+
+.left-tilt:hover{
+    background-color: #00D4F9;
+    color: #0A2540;
+    transform: rotate(-5deg);
+}
+
+.right-tilt{
+    transition: transform 0.4s ease-in-out;
+}
+
+.right-tilt:hover{
+    background-color: #00D4F9;
+    color: #0A2540;
+    transform: rotate(5deg);
+}
+
