@@ -40,3 +40,10 @@ body {
 .help:hover,.modal_option:hover {
     background: #efeeee;
 }
+
+.runBtn{
+    padding: 5px;
+    margin: 5px 15px;
+    border-radius: 5px;
+    
+}

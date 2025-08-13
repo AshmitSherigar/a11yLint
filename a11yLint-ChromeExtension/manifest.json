@@ -34,7 +34,7 @@
                 "<all_urls>"
             ],
             "js": [
-                "content.js"
+                "contentScript.js"
             ]
         }
     ]
