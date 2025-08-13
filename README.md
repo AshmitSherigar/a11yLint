@@ -2,22 +2,20 @@
 
 ## ♿ a11yLint — Accessibility Checklist
 
-This checklist ensures comprehensive accessibility coverage for your extension.
+This checklist is the comprehensive accessibility coverage for your extension.
 
 ---
 
 ### 1. 📷 Images & Media
-- [ ] **Alt Text**
-  - [ ] `<img>` missing `alt`.
-  - [ ] Informative images have meaningful `alt`.
-  - [ ] Decorative images have empty `alt`.
-- [ ] **Complex Images**
-  - [ ] Long description provided for charts/infographics (`aria-describedby`, `<figcaption>`).
-- [ ] **Video/Audio**
-  - [ ] Captions/subtitles available.
-  - [ ] Transcript available for audio-only.
-- [ ] **Autoplay**
-  - [ ] Autoplaying media starts muted or paused.
+- [X] **Alt Text**
+  - [X] `<img>` missing `alt`.
+- [X] **Complex Images**
+  - [X] Long description provided for charts/infographics (`aria-describedby`, `<figcaption>`).
+- [X] **Video/Audio**
+  - [X] Captions/subtitles available.
+  - [X] Transcript available for audio-only.
+- [X] **Autoplay**
+  - [X] Autoplaying media starts muted or paused.
 
 ---
 
