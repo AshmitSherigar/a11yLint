@@ -2,7 +2,7 @@ const textPath = document.getElementById("featuresText");
 
 window.addEventListener("scroll", () => {
     const scrollPercent = window.scrollY / (document.body.scrollHeight - window.innerHeight);
-    const offset = 100 - (scrollPercent * 200);
+    const offset = 100 - (scrollPercent * 260);
     textPath.setAttribute("startOffset", Math.max(0, offset) + "%");
 });
 
@@ -13,7 +13,7 @@ const slidesContainer = document.querySelector('.slides');
 const prev = document.querySelector('.arrow-left');
 const next = document.querySelector('.arrow-right');
 
-let current = 2; // Current active slide index
+let current = 1; // Current active slide index
 
 // Function to update slider position and active states
 function updateSlider() {

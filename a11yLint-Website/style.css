@@ -320,12 +320,13 @@ text {
 
 #docs{
     color: white;
-    height: 95vh;
+    height: 100vh;
     padding: 2rem;
     background-color: #0A2540;
     display: flex;
     align-items: center;
     justify-content: center;
+    padding-top: 5%;
 }
 
 #docs-text{
@@ -491,3 +492,73 @@ text {
     transform: rotate(5deg);
 }
 
+footer{
+    background-color: #0A2540;
+    height: 50vh;
+    overflow: hidden;
+}
+
+#contact{
+    height: 100%;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+}
+
+.contact-parts{
+    height: 50%;
+    color: white;
+}
+
+#info{
+    display: flex;
+}
+
+#info-left{
+    padding-left: 10%;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    gap: 22%;
+    z-index: 10;
+}
+
+#info-left h1{
+    color: #00D3F8;
+    font-size: 30px;
+    letter-spacing: 5px;
+}
+
+.links{
+    height: 40px;
+    width: 200px;
+    border-radius: 30px;
+    border-color: white;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    font-size: 17px;
+    color: #0A2540;
+    background-color: white;
+}
+
+
+.link-img{
+    height: 60%;
+    width: 10%;
+}
+
+
+#brand-name{
+    padding-top: 1%;
+    display: flex;
+    justify-content: center;
+}
+
+#brand-name h2{
+    line-height: 0.4;
+    font-size: 350px;
+    letter-spacing: 55px;
+    color: #1E4164;
+}
