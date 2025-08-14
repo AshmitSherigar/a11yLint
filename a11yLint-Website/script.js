@@ -13,7 +13,7 @@ const slidesContainer = document.querySelector('.slides');
 const prev = document.querySelector('.arrow-left');
 const next = document.querySelector('.arrow-right');
 
-let current = 0; // Current active slide index
+let current = 2; // Current active slide index
 
 // Function to update slider position and active states
 function updateSlider() {
