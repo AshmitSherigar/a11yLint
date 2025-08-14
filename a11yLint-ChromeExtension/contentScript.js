@@ -1,119 +1,214 @@
-// This runs on every matching webpage
 console.log("Hello from content script!", window.location.href);
 
-function checkForVideoAndImages() {
-    //Check for Images
-    const imageCheck = []
-    document.querySelectorAll("img").forEach(image => {
+// Results storage
+const accessibilityResults = {
+    contrast: [],
+    images: [],
+    videos: [],
+    audio: [],
+    language: [],
+    smallFonts: []
+};
 
-        // 1. Check for missing alt images
+// --- Helper: Convert RGB(A) string to array ---
+function parseRGB(color) {
+    const match = color.match(/\d+/g);
+    return match ? match.slice(0, 3).map(Number) : [255, 255, 255];
+}
+
+// --- Helper: Relative luminance (WCAG) ---
+function luminance([r, g, b]) {
+    const toLinear = c => {
+        c /= 255;
+        return (c <= 0.03928) ? (c / 12.92) : Math.pow((c + 0.055) / 1.055, 2.4);
+    };
+    const [R, G, B] = [toLinear(r), toLinear(g), toLinear(b)];
+    return 0.2126 * R + 0.7152 * G + 0.0722 * B;
+}
+
+// --- Helper: Contrast ratio ---
+function contrastRatio(fg, bg) {
+    const L1 = luminance(parseRGB(fg));
+    const L2 = luminance(parseRGB(bg));
+    return (Math.max(L1, L2) + 0.05) / (Math.min(L1, L2) + 0.05);
+}
+
+// --- Find real background color (walks up DOM) ---
+function getEffectiveBackgroundColor(el) {
+    let current = el;
+    while (current && current !== document.documentElement) {
+        const style = getComputedStyle(current);
+        const bg = style.backgroundColor;
+        const hasImage = style.backgroundImage !== 'none';
+
+        if ((bg && bg !== 'transparent' && bg !== 'rgba(0, 0, 0, 0)') || hasImage) {
+            return { color: bg, hasImage };
+        }
+        current = current.parentElement;
+    }
+    return { color: 'rgb(255, 255, 255)', hasImage: false };
+}
+
+// --- Main contrast check ---
+function checkContrast() {
+    const allElements = document.querySelectorAll('*');
+
+    allElements.forEach(el => {
+        const style = getComputedStyle(el);
+        const fg = style.color;
+        const { color: bg, hasImage } = getEffectiveBackgroundColor(el);
+
+        if (hasImage) return; // Skip background images
+
+        const ratio = contrastRatio(fg, bg);
+
+        // WCAG thresholds
+        const fontSize = parseFloat(style.fontSize);
+        const isBold = style.fontWeight >= 700 || style.fontWeight === 'bold';
+        const largeText = (fontSize >= 18) || (isBold && fontSize >= 14);
+        const minRatio = largeText ? 3 : 4.5;
+
+        if (ratio < minRatio) {
+            el.style.outline = '2px solid red';
+            accessibilityResults.contrast.push({
+                element: el,
+                fgColor: fg,
+                bgColor: bg,
+                ratio: ratio.toFixed(2),
+                fontSize,
+                isBold,
+                text: (el.innerText || el.textContent || "").trim()
+            });
+        }
+    });
+}
+
+// --- Check for images, video, and audio ---
+function checkForVideoAndImagesAndAudio() {
+    // Images
+    document.querySelectorAll("img").forEach(image => {
+        let issueFound = false;
+
+        // Missing alt
         if (!image.hasAttribute("alt")) {
-            imageCheck.push(image)
             image.style.setProperty("border", "3px solid red", "important");
+            accessibilityResults.images.push({ type: "missing-alt", src: image.src });
+            issueFound = true;
         }
 
-        // 2. Checking for potential large images that need complex description
-        const alt = image.getAttribute("alt") || ""
-        const imgHeight = image.height
-        const imgWidth = image.width
-        const fileName = image.src.toLowerCase()
-        const classes = image.className.toLowerCase()
-        const inFigure = !!image.closest("figure")
-        // !! to convert to a boolean value and .closest() checks if the image is in the figure element in the DOM tree
-
-        const isLarge = imgWidth >= 250 || imgHeight >= 250
-        const looksLikeChart = /chart|graph|diagram|infographic/.test(fileName + " " + classes)
-        const altShort = alt.split(" ").length < 10
+        // Complex image needs more description
+        const alt = image.getAttribute("alt") || "";
+        const imgHeight = image.height;
+        const imgWidth = image.width;
+        const fileName = image.src.toLowerCase();
+        const classes = image.className.toLowerCase();
+        const inFigure = !!image.closest("figure");
+        const isLarge = imgWidth >= 250 || imgHeight >= 250;
+        const looksLikeChart = /chart|graph|diagram|infographic/.test(fileName + " " + classes);
+        const altShort = alt.split(" ").length < 10;
 
         if ((isLarge || looksLikeChart || inFigure) && altShort) {
-
-            // if it is a large image or has chart or graph in the filename or class and it is in <figure> element which is used to describe multi-line alt description if any of these conditions are true along with if it has short text then this condition matches 
-            // so basically we want the complex images to have proper description 
-
-            imageCheck.push(image)
             image.style.setProperty("border", "3px solid orange", "important");
+            accessibilityResults.images.push({ type: "complex-image-short-alt", src: image.src });
+            issueFound = true;
         }
-
-
     });
-    console.log(`${imageCheck.length} images have missing alt tag`);
 
-    //Check for Videos
+    // Videos
     document.querySelectorAll("video").forEach(video => {
-        // Autoplay | Controls | Caption
-        const hasControls = video.getAttribute("controls")
-        const hasCaption = video.getAttribute("track[kind='captions']")
+        const hasControls = video.hasAttribute("controls");
+        const hasCaption = video.querySelector("track[kind='captions']");
 
         if (video.hasAttribute("autoplay")) {
             video.style.setProperty("border", "3px solid orange", "important");
-            console.log("Video has autoplay enabled:", video);
+            accessibilityResults.videos.push({ type: "autoplay", src: video.src });
         }
         if (!hasControls) {
             video.style.setProperty("border", "3px solid red", "important");
-            console.log("Video Missing Control")
+            accessibilityResults.videos.push({ type: "missing-controls", src: video.src });
         }
         if (!hasCaption) {
             video.style.setProperty("border", "3px solid orange", "important");
-            console.log("Video Missing Caption")
+            accessibilityResults.videos.push({ type: "missing-captions", src: video.src });
         }
     });
 
-    //Check for Audio
+    // Audios
     document.querySelectorAll("audio").forEach(audio => {
-        // Autoplay | Controls | Transcript
-        const hasControls = audio.getAttribute("controls")
-        const hasTranscriptId = audio.getAttribute("aria-describeby")
+        const hasControls = audio.hasAttribute("controls");
+        const hasTranscriptId = audio.hasAttribute("aria-describedby");
+
         if (audio.hasAttribute("autoplay")) {
-            console.log("Audio has autoplay enabled:", audio);
             audio.style.setProperty("border", "3px solid orange", "important");
+            accessibilityResults.audio.push({ type: "autoplay", src: audio.src });
         }
         if (!hasControls) {
             audio.style.setProperty("border", "3px solid red", "important");
-            console.log("Audio Missing Control")
+            accessibilityResults.audio.push({ type: "missing-controls", src: audio.src });
         }
         if (!hasTranscriptId) {
             audio.style.setProperty("border", "3px solid orange", "important");
-            console.log("Aduio Missing Transcript")
+            accessibilityResults.audio.push({ type: "missing-transcript", src: audio.src });
+        }
+    });
+}
+
+// --- Check for text & language ---
+function checkForTextAndContent() {
+    // Language
+    const lang = document.documentElement.getAttribute("lang");
+    const valid = /^[a-z]{2}(-[A-Z]{2})?$/.test(lang || "");
+    if (!valid) {
+        accessibilityResults.language.push("No valid language detected for the page");
+    }
+
+    // Small fonts
+    document.querySelectorAll("*").forEach(el => {
+        const size = parseFloat(getComputedStyle(el).fontSize);
+        if (size && size < 12) {
+            accessibilityResults.smallFonts.push({
+                element: el,
+                fontSize: size,
+                text: (el.innerText || el.textContent || "").trim().slice(0, 40)
+            });
         }
     });
 
-
+    // Contrast
+    checkContrast();
 }
 
-// runFeature which runs the feature according to the optionId
+// --- Feature runner ---
 function runFeature(optionId) {
     switch (optionId) {
         case "opt1":
-            checkForVideoAndImages()
+            checkForVideoAndImagesAndAudio();
             break;
         case "opt2":
-            console.log("Option 2 Logic here");
+            checkForTextAndContent();
             break;
         case "opt3":
-            console.log("Option 3 Logic here");
+            console.log("option 3 is being run");
             break;
-        case "opt4":
-            console.log("Option 4 Logic here");
-            break;
-        case "opt5":
-            console.log("Option 5 Logic here");
-            break;
-
         default:
             console.log("No Logic to be run here");
             break;
     }
-
 }
 
-// This is a message Event listener that listens for a message checks its type and runs the function for each iterated optionId
+
+
+// --- Listener ---
 chrome.runtime.onMessage.addListener((message) => {
     if (message.type === "RUN_FEATURES") {
         message.options.forEach(optionId => {
-            runFeature(optionId)
-
+            runFeature(optionId);
         });
 
+        // // Send results back
+        // chrome.runtime.sendMessage({
+        //     type: "ACCESSIBILITY_RESULTS",
+        //     data: accessibilityResults
+        // });
     }
-})
-
+});
