@@ -30,15 +30,15 @@ This checklist is the comprehensive accessibility coverage for your extension. (
 ---
 
 ### 3. 📋 Forms
-- [ ] **Labels**
-  - [ ] Every `<input>` has a `<label>` or `aria-label`.
-  - [ ] `for` attribute matches `id`.
-- [ ] **Required Fields**
-  - [ ] Marked with `required` or `aria-required`.
-- [ ] **Placeholder Misuse**
-  - [ ] Placeholder not used as label.
-- [ ] **Buttons**
-  - [ ] Buttons have an accessible name.
+- [X] **Labels**
+  - [X] Every `<input>` has a `<label>` or `aria-label`.
+  - [X] `for` attribute matches `id`.
+- [X] **Required Fields**
+  - [X] Marked with `required` or `aria-required`.
+- [X] **Placeholder Misuse**
+  - [X] Placeholder not used as label.
+- [X] **Buttons**
+  - [X] Buttons have an accessible name.
 
 ---
 
